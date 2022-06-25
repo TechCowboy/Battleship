@@ -68,9 +68,9 @@ class Game:
 	    counter = 1
 	    
 	    ### PLAYER INSTRUCTIONS ###
-	    print player.name + ", you have 10x10 cells where you can place your ships,\n"
-	    print "Remember not to tell your opponent where you place your ships\n"
-	    print "Then you say which direction the ship is turned (right, left, up or down)\n"
+	    print(player.name + ", you have 10x10 cells where you can place your ships,\n")
+	    print("Remember not to tell your opponent where you place your ships\n")
+	    print("Then you say which direction the ship is turned (right, left, up or down)\n")
 
 	    print(self.printfield(player.field.field)) #prints the player's field
 
@@ -82,7 +82,7 @@ class Game:
 	        cellBusy = True
 	        pff = player.field.field
 	        while self.columnExist(column) == False or row not in rowlist or cellBusy == True: #loop until the user enters a valid cell
-	            userInput = raw_input(player.name + ", in which cell (A-J)(1-10) do you want to place your " + nth[counter] + " ship?\n") #user input for cell
+	            userInput = input(player.name + ", in which cell (A-J)(1-10) do you want to place your " + nth[counter] + " ship?\n") #user input for cell
 	            if (len(userInput) >= 2): #user input must be atleast 2 characters
 	                column = userInput[0].upper() #make userinput upper-case
 	                row = userInput[1]
@@ -97,7 +97,7 @@ class Game:
 	        newcolumn = column
 	        
 	        while (direction != "right" and direction != "left" and direction != "up" and direction != "down") or self.rowExist(newrow) == False or self.columnExist(newcolumn) == False or cellBusy == True: #loop until the user enters a valid direction
-	            direction = raw_input(player.name + ", in what direction (right, left, up or down) is your " + nth[counter] + " ship turned?\n") #user input for direction
+	            direction = input(player.name + ", in what direction (right, left, up or down) is your " + nth[counter] + " ship turned?\n") #user input for direction
 	            cellBusy = False    
 	            partCounter = 0
 
@@ -138,9 +138,9 @@ class Game:
 	        counter += 1
 
 	def newPlayer(self, n, ships, field, bombfield): #Creates a new player with the given ships, field and bombfield
-	    newName = raw_input("Player " + str(n) + ", what's your name?\n")
+	    newName = input("Player " + str(n) + ", what's your name?\n")
 	    while newName == "":
-	        newName = raw_input("Please, enter something\n")
+	        newName = input("Please, enter something\n")
 	    self.clear()
 	    p = player.Player(newName, ships[:], field, bombfield)
 
@@ -150,7 +150,8 @@ class Game:
 	def anythingLeft(self, d): #Checks if there is any ships left on the given field
 	    newList = []
 	    def myprint(d):
-	        for k, v in d.iteritems():
+	        for k in d:
+	            v = d[k]
 	            if isinstance(v, dict): #If v is a dict, call the function with that dict
 	              myprint(v)
 	            else:
@@ -162,7 +163,7 @@ class Game:
 		column = ""
 		row = ""
 		while self.columnExist(column) == False or row not in rowlist: #loop until given a valid cell
-			userInput = raw_input(player.name + ", in which cell (A-J)(1-10) do you want to bomb your enemy?\n")
+			userInput = input(player.name + ", in which cell (A-J)(1-10) do you want to bomb your enemy?\n")
 
 			if (len(userInput) < 2): #Reset both values if the input is less than 2 characters
 				column = ""
@@ -195,45 +196,45 @@ class Game:
 
 	def start(self):
 		while self.anythingLeft(self.p1.field.field) and self.anythingLeft(self.p2.field.field): #While ships left, keep playing
-			print 'Your field:\n'
+			print('Your field:\n')
 			print(self.printfield(self.p1.field.field))
-			print '\nEnemy field:\n'
+			print('\nEnemy field:\n')
 			print(self.printfield(self.p1.bombfield.field))
 			cell = self.selectCell(self.p1)
 			self.bomb(self.p1, self.p2, cell[0], cell[1]) #player 1 bombs player 2 at the cell given above
 			self.clear()
 
 			if self.result == 'X':
-				print 'Hit!'
+				print('Hit!')
 			elif self.result == 'O':
-				print 'Miss!'
+				print('Miss!')
 			else:
-				print self.result
+				print(self.result)
 				sys.exit() #Exit the application
 
 			print(self.printfield(self.p1.bombfield.field))
 
-			raw_input('Press enter to go to next player')
+			input('Press enter to go to next player')
 			self.clear()
 
 			if self.anythingLeft(self.p1.field.field) and self.anythingLeft(self.p2.field.field):
-				print 'Your field:\n'
+				print('Your field:\n')
 				print(self.printfield(self.p2.field.field))
-				print '\nEnemy field:\n'
+				print('\nEnemy field:\n')
 				print(self.printfield(self.p2.bombfield.field))
 				cell = self.selectCell(self.p2)
 				self.bomb(self.p2, self.p1, cell[0], cell[1]) #player 2 bombs player 1 at the cell given above
 				self.clear()
 
 				if self.result == 'X':
-					print 'Hit!'
+					print('Hit!')
 				elif self.result == 'O':
-					print 'Miss!'
+					print('Miss!')
 				else:
-					print self.result
+					print(self.result)
 					sys.exit() #Exit the application
 
-				raw_input('Press enter to go to next player')
+				input('Press enter to go to next player')
 				self.clear()
 
 
